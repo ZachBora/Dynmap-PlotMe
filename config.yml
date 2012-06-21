@@ -1,0 +1,48 @@
+# dynmap-plotme configuration
+#
+update:
+  # Seconds between checks for Residence updates
+  period: 300
+  # Listen for update events from Residence, and do immediate updates (if true)
+  onchange: true
+
+layer:
+  name: "PlotMe"
+  # Make mobs layer hidden by default
+  hidebydefault: false
+  # ordering priority in layer menu (low goes before high - default is 0)
+  layerprio: 1
+  # (optional) set minimum zoom level before layer is visible (0 = defalt, always visible)
+  minzoom: 0
+
+# Set true to show 3D volumes for zones  
+use3dregions: false
+
+# How deep to nest residence subzones
+resdepth: 2
+
+# Format for popup - substitute values for macros
+infowindow: '<div class="infowindow"><span style="font-size:120%;">ID : %plotid%</span><br /> Owner <span style="font-weight:bold;">%plotowners%</span>%plothelpers%'
+
+plotstyle:
+  strokeColor: "#FF0000"
+  strokeOpacity: 0.5
+  strokeWeight: 2
+  fillColor: "#FFFFFF"
+  fillOpacity: 0.01
+  
+# Optional setting to limit which plots to show, by id - if commented out, all regions are shown
+# To show all plots on a given world, add 'world:<worldname>' to the list
+visibleregions: [ ]
+  
+# Optional setting to hide specific plots, by id
+# To hide all plots on a given world, add 'world:<worldname>' to the list
+hiddenregions: [ ]
+  
+# Optional per-plot overrides for plotstyle (any defined replace those in plotstyle)
+custstyle:
+  customizedplot:
+    strokeColor: "#00FF00"
+    y: 78
+  anotherregion.subzone:
+    strokeColor: "#007F00"
