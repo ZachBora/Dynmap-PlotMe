@@ -1,8 +1,8 @@
 name: DynmapPlotMe
 main: com.worldcretornica.dynmapplotme.DynmapPlotMe
-version: 0.1
+version: 0.3
 author: ZachBora
 website: http://dev.bukkit.org/server-mods/plotme/
-depend: [dynmap, PlotMe]
+depend: [dynmap, PlotMe-Core]
 description: >
              Link between dynmap and PlotMe

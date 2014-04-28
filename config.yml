@@ -16,7 +16,7 @@ layer:
   minzoom: 0
 
 # Set true to show 3D volumes for zones  
-use3dregions: false
+use3dregions: true
 
 # How deep to nest residence subzones
 resdepth: 2
@@ -43,6 +43,6 @@ hiddenregions: [ ]
 custstyle:
   customizedplot:
     strokeColor: "#00FF00"
-    y: 78
+    y: 64
   anotherregion.subzone:
     strokeColor: "#007F00"
