@@ -1,8 +1,11 @@
 package com.worldcretornica.dynmapplotme;
 
 import com.worldcretornica.plotme_core.Plot;
-import com.worldcretornica.plotme_core.PlotMe_Core;
-import com.worldcretornica.plotme_core.event.PlotEvent;
+import com.worldcretornica.plotme_core.PlotMeCoreManager;
+import com.worldcretornica.plotme_core.bukkit.PlotMe_CorePlugin;
+import com.worldcretornica.plotme_core.bukkit.api.BukkitWorld;
+import com.worldcretornica.plotme_core.bukkit.api.BukkitLocation;
+import com.worldcretornica.plotme_core.bukkit.event.PlotEvent;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -32,7 +35,7 @@ public class DynmapPlotMe extends JavaPlugin
 	private static final String DEF_INFOWINDOW = "<div class=\"infowindow\"><span style=\"font-size:120%;\">ID : %plotid%</span><br />" +
 			" Owner <span style=\"font-weight:bold;\">%plotowners%</span>%plothelpers%";
 
-	public PlotMe_Core plotme;
+	public PlotMe_CorePlugin plotme;
 	public MarkerAPI markerapi;
     public Plugin dynmap;
     public DynmapAPI api;
@@ -174,10 +177,11 @@ public class DynmapPlotMe extends JavaPlugin
         if(isVisible(name, world.getName())) {
             String id = name;
 
-            Location bottom = plotme.getPlotMeCoreManager().getPlotBottomLoc(world, name);
-            Location top = plotme.getPlotMeCoreManager().getPlotTopLoc(world, name);
+            PlotMeCoreManager manager = PlotMeCoreManager.getInstance();
+            Location bottom = ((BukkitLocation) manager.getPlotBottomLoc(new BukkitWorld(world), name)).getLocation();
+            Location top = ((BukkitLocation) manager.getPlotTopLoc(new BukkitWorld(world), name)).getLocation();
 
-            int roadheight = plotme.getPlotMeCoreManager().getGenMan(world).getRoadHeight(world.getName());
+            int roadheight = plotme.getAPI().getGenManager(world.getName()).getRoadHeight(world.getName());
 
             bottom.setY(roadheight);
             top.setY(roadheight);
@@ -226,9 +230,10 @@ public class DynmapPlotMe extends JavaPlugin
         /* Loop through worlds */
         for(World w : getServer().getWorlds()) 
         {
-        	if(plotme.getPlotMeCoreManager().isPlotWorld(w))
+            BukkitWorld world = new BukkitWorld(w);
+        	if(PlotMeCoreManager.getInstance().isPlotWorld(world))
         	{
-	        	ConcurrentHashMap<String, Plot> plots = plotme.getPlotMeCoreManager().getMap(w).getLoadedPlots();
+	        	ConcurrentHashMap<String, Plot> plots = PlotMeCoreManager.getInstance().getMap(world).getLoadedPlots();
 	            
 	            for(Plot plot : plots.values()) 
 	            {
@@ -288,7 +293,7 @@ public class DynmapPlotMe extends JavaPlugin
             severe("Cannot find PlotMe-Core!");
             return;
         }
-        plotme = (PlotMe_Core)p;
+        plotme = (PlotMe_CorePlugin)p;
 
         getServer().getPluginManager().registerEvents(new OurServerListener(), this);        
         /* If both enabled, activate */
